@@ -2,9 +2,12 @@ import React, { useState } from 'react';
 import { toast } from 'react-toastify';
 import Logo from '../assets/Logo.webp';
 import House from '../assets/House.webp';
-import loginUser from '../services/authService';
+import loginUser from '../services/authLoginService';
+import { useNavigate } from "react-router-dom";
 
 function Login() {
+    const navigate = useNavigate();
+
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [remember, setRemember] = useState(false);
@@ -48,7 +51,7 @@ function Login() {
                         {/* Enroll Now */}
                         <div className="text-sm text-gray-700">
                             <span>Are you a new customer?</span>
-                            <button className="ml-2 px-3 py-1 border border-green-700 rounded-full text-green-700 hover:bg-green-50 font-medium transition">
+                            <button onClick={() => navigate("/register")} className="ml-2 px-3 py-1 border border-green-700 rounded-full text-green-700 hover:bg-green-50 font-medium transition">
                                 Enroll Now
                             </button>
                         </div>
@@ -121,7 +124,14 @@ function Login() {
                             <div className="flex flex-col sm:flex-row items-center justify-center mt-4 text-sm text-emerald-600 font-medium space-y-2 sm:space-y-0 sm:space-x-2">
                                 <a href="#" className="hover:underline">Forgot Online ID?</a>
                                 <span className="hidden sm:inline text-gray-400">•</span>
-                                <a href="#" className="hover:underline">Forgot Password?</a>
+                                <a href="#" onClick={() => {
+                                    if (!email) {
+                                        toast.error("Enter your email first to reset password.");
+                                        return;
+                                    }
+                                    localStorage.setItem("resetEmail", email);
+                                    navigate("/reset-password");
+                                }} className="hover:underline">Forgot Password?</a>
                             </div>
                         </form>
                     </div>
