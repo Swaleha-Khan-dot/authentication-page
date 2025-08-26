@@ -39,13 +39,12 @@ app.options("*", cors(corsOptions));
 //JSON Parser
 app.use(express.json());
 
-
 // Routes
 app.use('/api/auth', authRoutes);
 
 // Root route for Vercel health check
 app.get("/", (req, res) => {
-    res.send("✅ API is live and running on Vercel!");
+    res.send("✅ API is live!");
 });
 
 // Connect DB
